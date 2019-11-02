@@ -4,22 +4,22 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
   <style>
-  #mapId{ width: 900px; height: 500px; }
-  </style>
+  #mapId{ width: 100%; height: 100%; }
+  </style> 
 </head>
 <body>
 
   <div id="mapId"></div>
 
-  <script>
 
-  /* initialize the map. 
+<script src="setup.js"></script>
+  <!-- /* initialize the map. 
   setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
 
   setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
   */
   
-  var map = L.map('mapId').setView([39.999, -75.160616], 12);
+  var map = L.map('mapId').setView([39.97, -83.0], 14);
 
   //replace the code below from the Plain JavaScript from the map style you choose
   //at http://leaflet-extras.github.io/leaflet-providers/preview/
@@ -31,7 +31,7 @@
   
   //change the varialbe "OpenStreetMap_BlackAndWhite" according to the map style you choose
   //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 27 in this script
-  OpenStreetMap_BlackAndWhite.addTo(map);
-  </script>
+  OpenStreetMap_BlackAndWhite.addTo(map); -->
+
 </body>
 </html>

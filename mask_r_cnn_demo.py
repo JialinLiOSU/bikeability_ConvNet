@@ -79,11 +79,11 @@ results = model.detect([image], verbose=1)
 # Visualize results
 r = results[0]
 
-(pgon,IsOtherPgonExld) = returnPgon(results,polygons)
-listIndBbox = []
-for i in range(len(results)): # i --- index of bbox
-    vip = vehicleInPolygon(results[i],pgon)
-    listIndBbox.append(i)
+# (pgon,IsOtherPgonExld) = returnPgon(results,polygons)
+# listIndBbox = []
+# for i in range(len(results)): # i --- index of bbox
+#     vip = vehicleInPolygon(results[i],pgon)
+#     listIndBbox.append(i)
 
 visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'],
                             class_names, r['scores'])
