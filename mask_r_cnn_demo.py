@@ -6,12 +6,14 @@ import numpy as np
 import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
+from GIS
 
 # 1. Set directories
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../bikeability_ConvNet/")
 # Import Mask RCNN
-sys.path.append(ROOT_DIR)  # To find local version of the library
+# sys.path.append(ROOT_DIR)  # To find local version of the library
+sys.path.append(os.path.join(ROOT_DIR, "models/Mask_RCNN-master/"))  # To find local version
 from mrcnn import utils
 import mrcnn.model as modellib
 from mrcnn import visualize
@@ -26,7 +28,7 @@ COCO_MODEL_PATH = os.path.join(ROOT_DIR, "models/Mask_RCNN-master/pretrained_mod
 if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 # Directory of images to run detection on
-IMAGE_DIR = os.path.join(ROOT_DIR, "data/test_gsv")
+IMAGE_DIR = os.path.join(ROOT_DIR, "data/test_bike")
 
 
 # 2. Configurations
@@ -52,16 +54,36 @@ model.load_weights(COCO_MODEL_PATH, by_name=True)
 # the teddy bear class, use: class_names.index('teddy bear')
 class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'bus', 'train', 'truck', 'boat', 'traffic light',
-               'fire hydrant', 'stop sign', 'parking meter']
+               'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird',
+               'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear',
+               'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie',
+               'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball',
+               'kite', 'baseball bat', 'baseball glove', 'skateboard',
+               'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup',
+               'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
+               'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza',
+               'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed',
+               'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote',
+               'keyboard', 'cell phone', 'microwave', 'oven', 'toaster',
+               'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
+               'teddy bear', 'hair drier', 'toothbrush']
 
 
 # 5. Run Object Detection
 # Load a random image from the images folder
 file_names = next(os.walk(IMAGE_DIR))[2]
 image = skimage.io.imread(os.path.join(IMAGE_DIR, random.choice(file_names)))
+# image = skimage.io.imread(os.path.join(IMAGE_DIR, '255_w7iwV55eo14miqKQaB1zhw_191_2016_8_forward.jpg'))
 # Run detection
 results = model.detect([image], verbose=1)
 # Visualize results
 r = results[0]
+
+(pgon,IsOtherPgonExld) = returnPgon(results,polygons)
+listIndBbox = []
+for i in range(len(results)): # i --- index of bbox
+    vip = vehicleInPolygon(results[i],pgon)
+    listIndBbox.append(i)
+
 visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'],
                             class_names, r['scores'])

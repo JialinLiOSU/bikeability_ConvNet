@@ -15,9 +15,12 @@ import colorsys
 
 import numpy as np
 from skimage.measure import find_contours
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib import patches,  lines
 from matplotlib.patches import Polygon
+
 import IPython.display
 
 # Root directory of the project
@@ -165,6 +168,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     ax.imshow(masked_image.astype(np.uint8))
     if auto_show:
         plt.show()
+        plt.savefig('C:\\Users\\li.7957\\Desktop\\bikeability_ConvNet\\data\\demo7.png', bbox_inches='tight')
 
 
 def display_differences(image,
