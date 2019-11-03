@@ -44,9 +44,9 @@ function switchStatus(status, line) {
 
 var baseLayer = L.esri.basemapLayer('Gray')
 map = L.map("map", {
-  zoom: 12.5,
+  zoom: 15,
   zoomSnap: 0.25,
-  center: [40.011829189152486, -82.91261469998747],
+  center: [39.97, -83.0],
   layers: [baseLayer],
   zoomControl: false,
   attributionControl: false,
@@ -163,7 +163,6 @@ $("#start-btn").click(function () {
 
 });
 
-
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
   if ("withCredentials" in xhr) {
@@ -178,4 +177,25 @@ function createCORSRequest(method, url) {
 
   }
   return xhr;
+}
+
+
+for (var i = 0; i < imageInfo.length; i++) {
+  var cir = L.circle([parseFloat(imageInfo[i].lat), parseFloat(imageInfo[i].lon)], {
+    radius: 10,
+    fillColor: '#2171b5',
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    info:imageInfo[i],
+    fillOpacity: 0.5
+  });
+  cir.on("click", function (d) {
+    var popup = L.popup()
+      .setLatLng([parseFloat(d.target.options.info.lat), parseFloat(d.target.options.info.lon)])
+      .setContent("<span>Panoid ID " + d.target.options.info["panoid"] + "</span></br><span>Year: " + (d.target.options.info["year"]) + "</span></br><span>Month: " + (d.target.options.info["month"]) + "</span>")
+      .openOn(map);
+  })
+  cir.addTo(map);
+
 }
