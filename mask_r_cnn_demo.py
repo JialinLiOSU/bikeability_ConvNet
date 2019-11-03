@@ -6,7 +6,8 @@ import numpy as np
 import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
-from GIS
+import json
+
 
 # 1. Set directories
 # Root directory of the project
@@ -69,21 +70,37 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'teddy bear', 'hair drier', 'toothbrush']
 
 
+# # 5. Run Object Detection
+# # Load a random image from the images folder
+# file_names = next(os.walk(IMAGE_DIR))[2]
+# image = skimage.io.imread(os.path.join(IMAGE_DIR, random.choice(file_names)))
+# # image = skimage.io.imread(os.path.join(IMAGE_DIR, '255_w7iwV55eo14miqKQaB1zhw_191_2016_8_forward.jpg'))
+# # Run detection
+# results = model.detect([image], verbose=1)
+# # Visualize results
+# r = results[0]
+
+# # (pgon,IsOtherPgonExld) = returnPgon(results,polygons)
+# # listIndBbox = []
+# # for i in range(len(results)): # i --- index of bbox
+# #     vip = vehicleInPolygon(results[i],pgon)
+# #     listIndBbox.append(i)
+
+# visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'],
+#                             class_names, r['scores'])
+                            
 # 5. Run Object Detection
 # Load a random image from the images folder
 file_names = next(os.walk(IMAGE_DIR))[2]
-image = skimage.io.imread(os.path.join(IMAGE_DIR, random.choice(file_names)))
-# image = skimage.io.imread(os.path.join(IMAGE_DIR, '255_w7iwV55eo14miqKQaB1zhw_191_2016_8_forward.jpg'))
-# Run detection
-results = model.detect([image], verbose=1)
-# Visualize results
-r = results[0]
-
-# (pgon,IsOtherPgonExld) = returnPgon(results,polygons)
-# listIndBbox = []
-# for i in range(len(results)): # i --- index of bbox
-#     vip = vehicleInPolygon(results[i],pgon)
-#     listIndBbox.append(i)
-
-visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'],
-                            class_names, r['scores'])
+np.set_printoptions(threshold=np.inf)
+for file_name in file_names:
+    image = skimage.io.imread(os.path.join(IMAGE_DIR, file_name))
+    # Run detection
+    results = model.detect([image], verbose=1)
+    # Save results
+    r = results[0]
+    visualize.display_instances(file_name, image, r['rois'], r['masks'], r['class_ids'],
+                                class_names, r['scores'])
+    del r['masks']
+    with open("C:/Users/li.7957/Desktop/bikeability_ConvNet/data/results/json/" + os.path.splitext(file_name)[0] + ".txt", 'w') as file:
+        file.write(str(r))

@@ -83,7 +83,7 @@ def apply_mask(image, mask, color, alpha=0.5):
     return image
 
 
-def display_instances(image, boxes, masks, class_ids, class_names,
+def display_instances(file_name, image, boxes, masks, class_ids, class_names,
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
                       show_mask=True, show_bbox=True,
@@ -167,8 +167,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
     if auto_show:
-        plt.show()
-        plt.savefig('C:\\Users\\li.7957\\Desktop\\bikeability_ConvNet\\data\\demo7.png', bbox_inches='tight')
+       plt.savefig(os.path.join("C:/Users/li.7957/Desktop/bikeability_ConvNet/data/results/images/", file_name), bbox_inches='tight')
 
 
 def display_differences(image,
