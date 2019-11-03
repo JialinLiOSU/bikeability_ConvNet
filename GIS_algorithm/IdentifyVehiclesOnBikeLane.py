@@ -3,6 +3,9 @@ from geom import point_in_polygon
 from point_in_polygon import pip_cross
 from point_in_polygon import *
 from geom.point import *
+from lane_width import *
+import csv
+import json
 
 def vehicleInPolygon(bbox, pgon):
     xMin = bbox[0]
@@ -52,6 +55,12 @@ def returnPgon(results,polygons):
             return (polygons[1], True)
     return (polygons[0],False)
 
+def swap (a,b):
+    temp = a
+    a = b
+    b = temp
+    return a, b
+
 if __name__ == '__main__': 
     # read object detection results pickles "results"
     # read filtered polygon results pickles "polygons"
@@ -63,7 +72,26 @@ if __name__ == '__main__':
     # pgon = [[Point(p[0],p[1]) for p in pgon]]
     # test = vehicleInPolygon(bbox,pgon)
     # print(test)
-    (pgon,IsOtherPgonExld) = returnPgon(results,polygons)
+    bboxInfo = []
+    results = []
+    path = 'C:\\Users\\jiali\\Desktop\\bikeability_ConvNet\\data\\results\\json\\'
+    with open(path + '239_n_tvN2Q9V4G7TbqXs-wHZg_191_2016_8_forward.json','r') as f:
+        distros_dict = json.load(f)
+        for distro in distros_dict:
+            print(distro['Name'])
+        # for row in csv_reader:
+        #     if row[0]['class_ids'] == 3:
+        #         bboxInfo.append(row[0])
+        #         results.append(row[0]['rois'])
+
+    polyIdx, polygonsTemp, widthTemp = compare_widths(pgonsLuyu)
+
+    if widthTemp[0] > widthTemp[1] :
+        widthTemp[0], widthTemp[1] = swap(widthTemp[0], widthTemp[1])
+        polyIdx[0], polyIdx[1] = swap(polyIdx[0], polyIdx[1])
+        polygonsTemp[0], polygonsTemp[1] = swap(polygonsTemp[0], polygonsTemp[1])
+
+    (pgon,IsOtherPgonExld) = returnPgon(results,polygonsTemp)
     listIndBbox = []
     for i in range(len(results)): # i --- index of bbox
         vip = vehicleInPolygon(results[i],pgon)
