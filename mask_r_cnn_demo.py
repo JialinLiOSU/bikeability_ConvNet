@@ -7,6 +7,7 @@ import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
 import json
+import pickle
 
 
 # 1. Set directories
@@ -29,7 +30,7 @@ COCO_MODEL_PATH = os.path.join(ROOT_DIR, "models/Mask_RCNN-master/pretrained_mod
 if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 # Directory of images to run detection on
-IMAGE_DIR = os.path.join(ROOT_DIR, "data/test_bike")
+IMAGE_DIR = os.path.join(ROOT_DIR, "data/most_images")
 
 
 # 2. Configurations
@@ -70,15 +71,15 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'teddy bear', 'hair drier', 'toothbrush']
 
 
-# # 5. Run Object Detection
-# # Load a random image from the images folder
-# file_names = next(os.walk(IMAGE_DIR))[2]
-# image = skimage.io.imread(os.path.join(IMAGE_DIR, random.choice(file_names)))
-# # image = skimage.io.imread(os.path.join(IMAGE_DIR, '255_w7iwV55eo14miqKQaB1zhw_191_2016_8_forward.jpg'))
-# # Run detection
-# results = model.detect([image], verbose=1)
-# # Visualize results
-# r = results[0]
+# 5. Run Object Detection
+# Load a random image from the images folder
+file_names = next(os.walk(IMAGE_DIR))[2]
+image = skimage.io.imread(os.path.join(IMAGE_DIR, random.choice(file_names)))
+# image = skimage.io.imread(os.path.join(IMAGE_DIR, '255_w7iwV55eo14miqKQaB1zhw_191_2016_8_forward.jpg'))
+# Run detection
+results = model.detect([image], verbose=1)
+# Visualize results
+r = results[0]
 
 # # (pgon,IsOtherPgonExld) = returnPgon(results,polygons)
 # # listIndBbox = []
@@ -99,8 +100,11 @@ for file_name in file_names:
     results = model.detect([image], verbose=1)
     # Save results
     r = results[0]
-    visualize.display_instances(file_name, image, r['rois'], r['masks'], r['class_ids'],
-                                class_names, r['scores'])
-    del r['masks']
-    with open("C:/Users/li.7957/Desktop/bikeability_ConvNet/data/results/json/" + os.path.splitext(file_name)[0] + ".txt", 'w') as file:
-        file.write(str(r))
+    # visualize.display_instances(file_name, image, r['rois'], r['masks'], r['class_ids'],
+    #                             class_names, r['scores'])
+    # del r['masks']
+    # with open("C:/Users/li.7957/Desktop/bikeability_ConvNet/data/results/json/" + os.path.splitext(file_name)[0] + ".txt", 'w') as file:
+    #     file.write(str(r))
+
+    with open("C:/Users/li.7957/Desktop/bikeability_ConvNet/data/results/json/" + os.path.splitext(file_name)[0] + ".pickle", 'wb') as handle:
+        pickle.dump(r, handle)

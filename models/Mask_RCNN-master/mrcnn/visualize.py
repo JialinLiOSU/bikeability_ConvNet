@@ -167,7 +167,8 @@ def display_instances(file_name, image, boxes, masks, class_ids, class_names,
             ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
     if auto_show:
-       plt.savefig(os.path.join("C:/Users/li.7957/Desktop/bikeability_ConvNet/data/results/images/", file_name), bbox_inches='tight')
+        plt.show()
+    #    plt.savefig(os.path.join("C:/Users/li.7957/Desktop/bikeability_ConvNet/data/results/images/", file_name), bbox_inches='tight')
 
 
 def display_differences(image,
